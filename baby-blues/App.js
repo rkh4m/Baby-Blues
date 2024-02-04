@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ResponseType, useAuthRequest } from "expo-auth-session";
 import HomeScreen from "./HomeScreen";
 import ReflectMoodScreen from "./ReflectMoodScreen";
 import RelaxScreen from "./RelaxScreen";
 import { Audio } from "expo-av";
+import SpotifyEmbedded from "./SpotifyEmbedded";
+import WebView from "react-native-webview";
 
 const App = () => {
   const colors = [
@@ -249,30 +252,36 @@ const App = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors[colorIndex] }]}>
-      {currentScreen === "home" && (
-        <HomeScreen setCurrentScreen={setCurrentScreen} />
-      )}
-      {currentScreen === "reflectMood" && (
-        <ReflectMoodScreen
-          setCurrentScreen={setCurrentScreen}
-          currEmotion={emotion}
-          moodPlaylist={moodPlaylist}
-        />
-      )}
-      {currentScreen === "relax" && (
-        <RelaxScreen
-          setCurrentScreen={setCurrentScreen}
-          currEmotion={emotion}
-          moodPlaylist={moodPlaylist}
-        />
-      )}
-      <Button title="spotify auth" onPress={() => promptAsync()} />
-      <Button
-        title={recording ? "Stop Recording & Analyze" : "Start Recording"}
-        onPress={recording ? speechEmotionAnalysis : startRecording}
-      />
-    </View>
+    <SafeAreaProvider>
+      <View style={[styles.container, { backgroundColor: colors[colorIndex] }]}>
+        {currentScreen === "home" && (
+          <HomeScreen setCurrentScreen={setCurrentScreen} />
+        )}
+        {currentScreen === "reflectMood" && (
+          <ReflectMoodScreen
+            setCurrentScreen={setCurrentScreen}
+            currEmotion={emotion}
+            moodPlaylist={moodPlaylist}
+          />
+        )}
+        {currentScreen === "relax" && (
+          <RelaxScreen
+            setCurrentScreen={setCurrentScreen}
+            currEmotion={emotion}
+            moodPlaylist={moodPlaylist}
+          />
+        )}
+        {currentScreen === "home" && (
+          <View>
+            <Button title="spotify auth" onPress={() => promptAsync()} />
+            <Button
+              title={recording ? "Stop Recording & Analyze" : "Start Recording"}
+              onPress={recording ? speechEmotionAnalysis : startRecording}
+            />
+          </View>
+        )}
+      </View>
+    </SafeAreaProvider>
   );
 };
 

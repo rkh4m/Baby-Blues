@@ -1,73 +1,80 @@
 import React from "react";
 import { View, Button, Text, StyleSheet, Linking } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { LineChart } from "react-native-chart-kit";
-import { WebView } from "react-native-webview";
+import SpotifyEmbedded from "./SpotifyEmbedded";
 
 const ReflectMoodScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
   // Add a Spotify playlist to the ReflectMoodScreen
-  const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/${moodPlaylist[0].id}?utm_source=generator`;
+  const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/${
+    moodPlaylist[0] ? moodPlaylist[0].id : "0ZoGuZSXMa4Kd1eCZmoZdr"
+  }?utm_source=generator`;
 
   console.log("currEmotion", currEmotion);
-  console.log("moodPlaylist", moodPlaylist[0].id);
+  // console.log("moodPlaylist", moodPlaylist[0].id);
+  const backgroundColor = "#42f5e0";
 
   return (
-    <View style={styles.screenContainer}>
-      <Text>Reflect my mood</Text>
-      <WebView
-        style={styles.webView}
-        source={{
-          html: `
-            <html>
-            <head>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            </head>
-            <body>
-              <iframe src="${spotifyPlaylistEmbedUrl}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> 
-            </body>
-            </html>
-          `,
-        }}
-        allowsFullscreenVideo={true}
-        mediaPlaybackRequiresUserAction={false}
-      />
-      <Text style={styles.chartTitle}>Mood Over Time</Text>
-      <LineChart
-        data={{
-          labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          datasets: [
-            {
-              data: [20, 45, 28, 80, 99, 43],
+    <SafeAreaView>
+      <View style={styles.screenContainer}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 60,
+            width: "100%",
+            backgroundColor: `${backgroundColor}`,
+          }}
+        >
+          <View style={styles.buttonContainer}>
+            <Button title="Home" onPress={() => setCurrentScreen("home")} />
+          </View>
+          <Text style={styles.headerText}>Want to relax?</Text>
+        </View>
+        <SpotifyEmbedded
+          spotifyPlaylistEmbedUrl={spotifyPlaylistEmbedUrl}
+          backgroundColor={backgroundColor}
+          spotifyEmbedHeight={420}
+        />
+        <Text style={styles.chartTitle}>Mood Over Time</Text>
+        <LineChart
+          data={{
+            labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+            datasets: [
+              {
+                data: [20, 45, 28, 80, 99, 43],
+              },
+            ],
+          }}
+          width={300} // from react-native
+          height={220}
+          yAxisLabel=""
+          yAxisSuffix="pts"
+          chartConfig={{
+            backgroundColor: "#e26a00",
+            backgroundGradientFrom: "#fb8c00",
+            backgroundGradientTo: "#ffa726",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
             },
-          ],
-        }}
-        width={300} // from react-native
-        height={220}
-        yAxisLabel=""
-        yAxisSuffix="pts"
-        chartConfig={{
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#fb8c00",
-          backgroundGradientTo: "#ffa726",
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#ffa726",
+            },
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
             borderRadius: 16,
-          },
-          propsForDots: {
-            r: "6",
-            strokeWidth: "2",
-            stroke: "#ffa726",
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-      <Button title="Back to Home" onPress={() => setCurrentScreen("home")} />
-    </View>
+          }}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -87,6 +94,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
+  },
+  buttonContainer: {
+    position: "absolute", // Position the button absolutely to ensure it sticks to the left
+    left: 10, // Adjust the left margin as needed
+  },
+  headerText: {
+    color: "#007AFF", // Match the button's color
+    fontSize: 18, // Adjust the font size as needed
   },
 });
 

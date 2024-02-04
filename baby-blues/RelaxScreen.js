@@ -1,36 +1,44 @@
 // RelaxScreen.js
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
+import SpotifyEmbedded from "./SpotifyEmbedded";
 
 const RelaxScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
   const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator`;
 
   console.log("currEmotion", currEmotion);
-  console.log("moodPlaylist", moodPlaylist);
+  // console.log("moodPlaylist", moodPlaylist);
+  const backgroundColor = "#42f5e0";
 
   return (
-    <View style={styles.screenContainer}>
-      <Text>Reflect my mood</Text>
-      <WebView
-        style={styles.webView}
-        source={{
-          html: `
-            <html>
-            <head>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            </head>
-            <body>
-              <iframe src="${spotifyPlaylistEmbedUrl}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> 
-            </body>
-            </html>
-          `,
+    <SafeAreaView style={{
+      flex: 1,
+      width: "100%",
+      borderColor: `${backgroundColor}`,
+    }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          height: 60,
+          width: "100%",
+          backgroundColor: `${backgroundColor}`,
         }}
-        allowsFullscreenVideo={true}
-        mediaPlaybackRequiresUserAction={false}
+      >
+        <View style={styles.buttonContainer}>
+          <Button title="Home" onPress={() => setCurrentScreen("home")} />
+        </View>
+        <Text style={styles.headerText}>Want to relax?</Text>
+      </View>
+      <SpotifyEmbedded
+        spotifyPlaylistEmbedUrl={spotifyPlaylistEmbedUrl}
+        backgroundColor={backgroundColor}
+        spotifyEmbedHeight={600}
       />
-      <Button title="Back to Home" onPress={() => setCurrentScreen("home")} />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -38,13 +46,21 @@ const styles = StyleSheet.create({
   webView: {
     flex: 1,
     width: "100%",
-    borderWidth: 150, // For debugging
+    borderWidth: 250, // For debugging
     borderColor: "red", // For debugging
   },
   screenContainer: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
+  },
+  buttonContainer: {
+    position: "absolute", // Position the button absolutely to ensure it sticks to the left
+    left: 10, // Adjust the left margin as needed
+  },
+  headerText: {
+    color: "#007AFF", // Match the button's color
+    fontSize: 18, // Adjust the font size as needed
   },
 });
 
