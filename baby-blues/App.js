@@ -265,7 +265,10 @@ const App = () => {
       {/* <View style={[styles.container, { backgroundColor: colors[colorIndex] }]}> */}
       <View style={[styles.container, { backgroundColor: emotionColors[emotion] }]}>
         {currentScreen === "home" && (
-          <HomeScreen setCurrentScreen={setCurrentScreen} />
+          <HomeScreen 
+            setCurrentScreen={setCurrentScreen} 
+            currEmotion={emotion}
+          />
         )}
         {currentScreen === "reflectMood" && (
           <ReflectMoodScreen
