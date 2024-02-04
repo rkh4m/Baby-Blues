@@ -5,14 +5,25 @@ import { WebView } from 'react-native-webview';
 
 const ReflectMoodScreen = ({ setCurrentScreen }) => {
   // Add a Spotify playlist to the ReflectMoodScreen
-  const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/42c9Dz92PuFD6LGrTNKvg4`;
+  const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/42c9Dz92PuFD6LGrTNKvg4?utm_source=generator`;
 
   return (
     <View style={styles.screenContainer}>
       <Text>Reflect my mood</Text>
       <WebView
         style={styles.webView}
-        source={{ uri: spotifyPlaylistEmbedUrl }}
+        source={{ 
+          html: `
+            <html>
+            <head>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body>
+              <iframe src="${spotifyPlaylistEmbedUrl}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> 
+            </body>
+            </html>
+          `
+         }}
         allowsFullscreenVideo={true}
         mediaPlaybackRequiresUserAction={false}
       />
@@ -59,7 +70,7 @@ const styles = StyleSheet.create({
     webView: {
         flex: 1,
         width: '100%',
-        borderWidth: 150, // For debugging
+        borderWidth: 170, // For debugging
         borderColor: 'red', // For debugging
       },       
   screenContainer: {
