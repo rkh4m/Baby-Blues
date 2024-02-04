@@ -9,11 +9,11 @@ const RelaxScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
   const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator`;
   const emotionColors = {
     Anger: "#E72222",
-    Anxiety: "#692544",
+    Anxiety: "#f28c07",
     Joy: "#e0b359",
     Tiredness: "#70947b",
     Love: "#ff819f",
-    Sadness: "#2a3b90",
+    Sadness: "#9bb3db",
     default: "#ededed",
   };
 

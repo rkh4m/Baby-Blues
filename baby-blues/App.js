@@ -21,11 +21,11 @@ const App = () => {
   ];
   const emotionColors = {
     Anger: "#E72222",
-    Anxiety: "#692544",
+    Anxiety: "#f28c07",
     Joy: "#e0b359",
     Tiredness: "#70947b",
     Love: "#ff819f",
-    Sadness: "#2a3b90",
+    Sadness: "#9bb3db",
     default: "#ededed",
   };
   const [colorIndex, setColorIndex] = useState(0);
@@ -285,8 +285,8 @@ const App = () => {
           />
         )}
         {currentScreen === "home" && (
-          <View>
-            <Button title="spotify auth" onPress={() => promptAsync()} />
+          <View style={{position: "absolute", bottom: 40}}>
+            <Button title="spotify auth" style={{}} onPress={() => promptAsync()} />
             <Button
               title={recording ? "Stop Recording & Analyze" : "Start Recording"}
               onPress={recording ? speechEmotionAnalysis : startRecording}

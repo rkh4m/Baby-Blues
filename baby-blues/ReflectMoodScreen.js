@@ -9,13 +9,24 @@ const ReflectMoodScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
   const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/${
     moodPlaylist[0] ? moodPlaylist[0].id : "0ZoGuZSXMa4Kd1eCZmoZdr"
   }?utm_source=generator`;
+
+  const emotionNouns = {
+    Anger: "Frustrated",
+    Anxiety: "Anxious",
+    Joy: "Happy",
+    Tiredness: "Tired",
+    Love: "Loved",
+    Sadness: "Sad",
+    default: "Happy",
+  };
+
   const emotionColors = {
     Anger: "#E72222",
-    Anxiety: "#692544",
+    Anxiety: "#f28c07",
     Joy: "#e0b359",
     Tiredness: "#70947b",
     Love: "#ff819f",
-    Sadness: "#2a3b90",
+    Sadness: "#9bb3db",
     default: "#ededed",
   };
 
@@ -39,7 +50,7 @@ const ReflectMoodScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
           <View style={styles.buttonContainer}>
             <Button title="Home" onPress={() => setCurrentScreen("home")} />
           </View>
-          <Text style={styles.headerText}>Want to relax?</Text>
+          <Text style={styles.headerText}>Feeling a Bit {emotionNouns[currEmotion]}...</Text>
         </View>
         <SpotifyEmbedded
           spotifyPlaylistEmbedUrl={spotifyPlaylistEmbedUrl}
