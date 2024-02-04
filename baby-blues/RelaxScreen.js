@@ -7,17 +7,28 @@ import SpotifyEmbedded from "./SpotifyEmbedded";
 
 const RelaxScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
   const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator`;
+  const emotionColors = {
+    Anger: "#E72222",
+    Anxiety: "#692544",
+    Joy: "#e0b359",
+    Tiredness: "#70947b",
+    Love: "#ff819f",
+    Sadness: "#2a3b90",
+    default: "#ededed",
+  };
 
   console.log("currEmotion", currEmotion);
   // console.log("moodPlaylist", moodPlaylist);
-  const backgroundColor = "#42f5e0";
+  const backgroundColor = emotionColors[currEmotion] || "#ededed";
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      width: "100%",
-      borderColor: `${backgroundColor}`,
-    }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        width: "100%",
+        borderColor: `${backgroundColor}`,
+      }}
+    >
       <View
         style={{
           flexDirection: "row",

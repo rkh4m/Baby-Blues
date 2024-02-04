@@ -9,10 +9,19 @@ const ReflectMoodScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
   const spotifyPlaylistEmbedUrl = `https://open.spotify.com/embed/playlist/${
     moodPlaylist[0] ? moodPlaylist[0].id : "0ZoGuZSXMa4Kd1eCZmoZdr"
   }?utm_source=generator`;
+  const emotionColors = {
+    Anger: "#E72222",
+    Anxiety: "#692544",
+    Joy: "#e0b359",
+    Tiredness: "#70947b",
+    Love: "#ff819f",
+    Sadness: "#2a3b90",
+    default: "#ededed",
+  };
 
   console.log("currEmotion", currEmotion);
   // console.log("moodPlaylist", moodPlaylist[0].id);
-  const backgroundColor = "#42f5e0";
+  const backgroundColor = emotionColors[currEmotion] || "#ededed";
 
   return (
     <SafeAreaView>
@@ -71,6 +80,7 @@ const ReflectMoodScreen = ({ setCurrentScreen, currEmotion, moodPlaylist }) => {
           style={{
             marginVertical: 8,
             borderRadius: 16,
+            paddingHorizontal: 10,
           }}
         />
       </View>

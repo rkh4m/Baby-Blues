@@ -19,6 +19,15 @@ const App = () => {
     "#F8FF33",
     "#FF5733",
   ];
+  const emotionColors = {
+    Anger: "#E72222",
+    Anxiety: "#692544",
+    Joy: "#e0b359",
+    Tiredness: "#70947b",
+    Love: "#ff819f",
+    Sadness: "#2a3b90",
+    default: "#ededed",
+  };
   const [colorIndex, setColorIndex] = useState(0);
   const [currentScreen, setCurrentScreen] = useState("home");
 
@@ -39,7 +48,7 @@ const App = () => {
   const spotify_id = "6d152d9352c44a838f16f58b3428867f";
   const spotify_secret = "aa2e059bdc7f416baa098f4fb9957455";
   const username = "21rjjh2snnpahcustamm4lyei";
-  const [emotion, setEmotion] = useState("");
+  const [emotion, setEmotion] = useState("default");
   const spotify_scope = "playlist-modify-public playlist-modify-private";
   const [token, setToken] = useState("");
   const [request, response, promptAsync] = useAuthRequest(
@@ -253,7 +262,8 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <View style={[styles.container, { backgroundColor: colors[colorIndex] }]}>
+      {/* <View style={[styles.container, { backgroundColor: colors[colorIndex] }]}> */}
+      <View style={[styles.container, { backgroundColor: emotionColors[emotion] }]}>
         {currentScreen === "home" && (
           <HomeScreen setCurrentScreen={setCurrentScreen} />
         )}
