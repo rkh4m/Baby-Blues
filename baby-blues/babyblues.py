@@ -7,10 +7,10 @@ client_id = "6f3bc5b1ddd647558965125cde910218"
 client_secret = "b38fb25080cf45949a895fdbaec257b7"
 redirect_uri = "http://localhost:8888/callback"
 username = "justintshim"
-genre = 'joy'
+genre = 'sad'
 
 
-scope = "playlist-modify-public playlist-modify-private"
+scope = "playlist-modify-public playlist-modify-public"
 
 # setup
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
@@ -27,7 +27,7 @@ def get_all_playlists():
         if playlists['next']:
             playlists = sp.next(playlists)
         else:
-            playlists = None
+            break
 
 get_all_playlists()
 
@@ -47,13 +47,11 @@ def get_playlist_id(playlist_name):
     return None
 
 # test
-playlist_id = get_playlist_id("joy Playlist")
+playlist_id = get_playlist_id(genre + " Playlist")
 if playlist_id:
     print(f"Playlist ID: {playlist_id}")
 else:
     print("Playlist not found.")
-
-
 
 
 
