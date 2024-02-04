@@ -9,9 +9,7 @@ redirect_uri = "http://localhost:8888/callback"
 username = "justintshim"
 genre = 'sad'
 
-
-scope = "playlist-modify-public playlist-modify-public"
-
+scope = "playlist-modify-public playlist-modify-private"
 # setup
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                client_secret=client_secret,
@@ -52,7 +50,6 @@ if playlist_id:
     print(f"Playlist ID: {playlist_id}")
 else:
     print("Playlist not found.")
-
 
 
 def create_playlist_for_genre(genre_keyword):
