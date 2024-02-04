@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Button } from 'react-native';
+import { ResponseType, useAuthRequest } from "expo-auth-session";
 import HomeScreen from './HomeScreen';
 import ReflectMoodScreen from './ReflectMoodScreen';
 import RelaxScreen from './RelaxScreen';
@@ -16,9 +17,70 @@ const App = () => {
 
   const [recording, setRecording] = useState();
   const [permissionResponse, requestPermission] = Audio.usePermissions();
-  const [uri, setUri] = useState(String);
+  const [uri, setUri] = useState("");
   const [sound, setSound] = useState();
-  const [jobId, setJobId] = useState();
+  const [jobId, setJobId] = useState("");
+
+  const discovery = {
+    authorizationEndpoint: 
+    "https://accounts.spotify.com/authorize",
+    tokenEndpoint: 
+    "https://accounts.spotify.com/api/token",
+  };
+  const spotify_id = "6d152d9352c44a838f16f58b3428867f";
+  const spotify_secret = "aa2e059bdc7f416baa098f4fb9957455";
+  const username = "21rjjh2snnpahcustamm4lyei";
+  const [emotion, setEmotion] = useState("");
+  const spotify_scope = "playlist-modify-public playlist-modify-private";
+  const [token, setToken] = useState("");
+  const [request, response, promptAsync] = useAuthRequest({
+      responseType: ResponseType.Token,
+      clientId: spotify_id,
+      scopes: [
+        "user-read-currently-playing",
+        "user-read-recently-played",
+        "user-read-playback-state",
+        "user-top-read",
+        "user-modify-playback-state",
+        "streaming",
+        "user-read-email",
+        "user-read-private",
+      ],
+      usePKCE: false,
+      redirectUri: "exp://172.29.35.99:8081",
+    },
+    discovery
+  );
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { access_token } = response.params;
+      setToken(access_token);
+      console.log(access_token);
+    } else {
+      console.log("auth failed");
+      console.log(response);
+    }
+  }, [response]);
+
+  const getPlaylistBasedOnEmotion = async () => {
+    const url = `https://api.spotify.com/v1/search?q=${emotion}+playlist&type=playlist&market=US`;
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    };
+  
+    try {
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(json);
+      // Process the response data as needed
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   async function startRecording() {
     try {
@@ -129,6 +191,8 @@ const App = () => {
       {currentScreen === 'home' && <HomeScreen setCurrentScreen={setCurrentScreen} />}
       {currentScreen === 'reflectMood' && <ReflectMoodScreen setCurrentScreen={setCurrentScreen} />}
       {currentScreen === 'relax' && <RelaxScreen setCurrentScreen={setCurrentScreen} />}
+      <Button title="spotify auth" onPress={() => promptAsync()}/>
+      <Button title="fetch playlist" onPress={getPlaylistBasedOnEmotion}/>
       <Button
         title={recording ? 'Stop Recording' : 'Start Recording'}
         onPress={recording ? stopRecording : startRecording}
@@ -136,6 +200,7 @@ const App = () => {
       <Button title="Play Sound" onPress={playSound} />
       <Button title="Upload and Analyze" onPress={() => uploadAndAnalyzeAudio(uri)} />
       <Button title="Fetch Analysis" onPress={() => fetchAudioAnalysis(jobId)} />
+
     </View>
   );
 };
